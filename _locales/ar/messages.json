@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "مجاني Telegram Video Downloader - تنزيل دفعي غير محدود"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "نزّل فيديو وصور Telegram مجانًا وبلا حدود أو حساب إضافي للإضافة، حتى من القنوات الخاصة والمجموعات التي يمكنك الوصول إليها."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "免費Telegram影片下載器 - 無限次數批次下載"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Telegram影片下載器是一款免費工具，可下載私人頻道和群組中的影片與圖片，支援無限次數批次下載，無需註冊擴充功能帳號；使用時仍需登入Telegram Web。"
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

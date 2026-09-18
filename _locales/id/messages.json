@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Gratis Telegram Video Downloader - Batch Tanpa Batas"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Unduh video dan foto gratis tanpa batas atau akun ekstensi tambahan, termasuk dari channel privat dan grup yang dapat Anda akses."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

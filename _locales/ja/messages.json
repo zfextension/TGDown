@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "無料Telegram動画ダウンローダー - 無制限の一括ダウンロード"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "無料・回数無制限・追加の拡張機能アカウント不要。アクセスできる非公開チャンネルや制限付きグループから動画と画像を一括保存。"
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

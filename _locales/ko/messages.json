@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "무료 Telegram 동영상 다운로더 - 무제한 일괄 다운로드"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "무료·무제한·추가 확장 프로그램 계정 없이 동영상과 사진을 일괄 저장하세요. 접근 가능한 비공개 채널과 그룹도 지원합니다."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

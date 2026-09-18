@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Kostenloser Telegram Video Downloader - Unbegrenzt im Batch"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Telegram-Videos und -Fotos gratis und unbegrenzt laden – ohne extra Erweiterungskonto, auch aus zugänglichen privaten Kanälen."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

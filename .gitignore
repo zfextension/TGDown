@@ -1,0 +1,20 @@
+node_modules
+dist
+dist.*
+*.zip
+.DS_Store
+*.log
+.vite
+.idea
+
+# AI
+.workbuddy
+
+# Environment (copy .env.example to .env)
+.env
+.env.*
+!.env.example
+
+# Local tooling config
+.claude/
+.trae/

@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Free Telegram Video Downloader - Unlimited Batch Downloads"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Free Telegram video downloader for private channels and groups. Unlimited batch video and photo downloads, no extension account."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Grátis Telegram Video Downloader - Lotes ilimitados"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Baixe vídeos e fotos grátis, sem limites ou conta extra da extensão, inclusive de canais privados e grupos que você pode acessar."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

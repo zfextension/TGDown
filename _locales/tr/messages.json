@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Ücretsiz Telegram Video Downloader - Sınırsız toplu indirme"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Video ve fotoğrafları ücretsiz, sınırsız ve ek uzantı hesabı olmadan indirin; erişebildiğiniz özel kanal ve grupları destekler."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

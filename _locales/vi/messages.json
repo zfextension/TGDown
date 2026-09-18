@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Miễn phí Telegram Video Downloader - Tải hàng loạt vô hạn"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Tải video và ảnh miễn phí, không giới hạn, không cần tài khoản tiện ích, kể cả từ kênh riêng tư và nhóm bạn có quyền truy cập."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

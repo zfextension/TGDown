@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "Безкоштовний Telegram Video Downloader - Пакетно без лімітів"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Завантажуйте відео й фото безкоштовно, без лімітів та окремого акаунта розширення — із доступних приватних каналів і груп."
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}

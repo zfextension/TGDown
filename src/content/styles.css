@@ -1,0 +1,10 @@
+/* content.css — content script 注入的全局 CSS
+ * 由于绕过样式已在 bypass.ts 内部用 <style> 注入,这里仅放兜底规则
+ */
+
+/* Telegram 在某些情况下会把 <html> 上的 user-select 继承下去,再补一刀 */
+html.tgdesk-on,
+html.tgdesk-on * {
+  -webkit-user-select: auto !important;
+  user-select: auto !important;
+}

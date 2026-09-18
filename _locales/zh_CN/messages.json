@@ -1,0 +1,14 @@
+{
+  "extensionName": {
+    "message": "免费Telegram视频下载器 - 无限次数批量下载"
+  },
+  "extensionShortName": {
+    "message": "tgdown"
+  },
+  "extensionDescription": {
+    "message": "Telegram视频下载器是一款免费工具，可下载私密频道和群组中的视频与图片，支持无限次数批量下载，无需注册扩展账号；使用时仍需登录Telegram Web。"
+  },
+  "actionTitle": {
+    "message": "tgdown"
+  }
+}
