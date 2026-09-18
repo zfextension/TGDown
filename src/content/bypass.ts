@@ -44,7 +44,7 @@ function installEventCapture(): void {
         if (
           t.tagName === 'VIDEO' ||
           t.tagName === 'IMG' ||
-          t.classList?.contains('tgdesk-btn-host')
+          t.classList?.contains('TGDown-btn-host')
         ) {
           e.stopPropagation();
         }
@@ -63,9 +63,9 @@ function installEventCapture(): void {
  * 现在: 用最窄的选择器,只针对可能被 TG 锁定的具体元素类型
  */
 function unlockUserSelect(): void {
-  if (document.getElementById('tgdesk-unlock')) return;
+  if (document.getElementById('TGDown-unlock')) return;
   const style = document.createElement('style');
-  style.id = 'tgdesk-unlock';
+  style.id = 'TGDown-unlock';
   style.textContent = `
     /* 只解除媒体元素的用户选择限制,不影响其他 UI */
     video, img {

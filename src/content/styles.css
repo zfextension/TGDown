@@ -3,8 +3,8 @@
  */
 
 /* Telegram 在某些情况下会把 <html> 上的 user-select 继承下去,再补一刀 */
-html.tgdesk-on,
-html.tgdesk-on * {
+html.TGDown-on,
+html.TGDown-on * {
   -webkit-user-select: auto !important;
   user-select: auto !important;
 }

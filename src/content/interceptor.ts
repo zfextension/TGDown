@@ -57,13 +57,13 @@ export class Interceptor {
       if (isLarge) {
         const storage = await new Promise<Record<string, any>>((resolve) => {
           chrome.storage.local.get(
-            ['tgdesk_disable_large_file_reminder', 'tgdesk_last_large_file_reminder_time'],
+            ['TGDown_disable_large_file_reminder', 'TGDown_last_large_file_reminder_time'],
             (res) => resolve(res || {}),
           );
         });
 
-        const disableReminder = storage.tgdesk_disable_large_file_reminder === true;
-        const lastTime = storage.tgdesk_last_large_file_reminder_time || 0;
+        const disableReminder = storage.TGDown_disable_large_file_reminder === true;
+        const lastTime = storage.TGDown_last_large_file_reminder_time || 0;
         const oneDayMs = 24 * 60 * 60 * 1000;
         const isWithinOneDay = Date.now() - lastTime < oneDayMs;
 
@@ -78,7 +78,7 @@ export class Interceptor {
     try {
       await this.execute(item);
     } catch (err) {
-      console.error('[TGDesk] download failed', err);
+      console.error('[TGDown] download failed', err);
     }
     return false;
   }
@@ -90,8 +90,8 @@ export class Interceptor {
         const dontRemind = detail?.dontRemind === true;
 
         chrome.storage.local.set({
-          tgdesk_last_large_file_reminder_time: Date.now(),
-          tgdesk_disable_large_file_reminder: dontRemind,
+          TGDown_last_large_file_reminder_time: Date.now(),
+          TGDown_disable_large_file_reminder: dontRemind,
         });
 
         cleanup();
@@ -102,8 +102,8 @@ export class Interceptor {
         resolve(false);
       };
       const cleanup = () => {
-        document.removeEventListener('tgdesk_proceed_download', handleProceed);
-        document.removeEventListener('tgdesk_cancel_download', handleCancel);
+        document.removeEventListener('TGDown_proceed_download', handleProceed);
+        document.removeEventListener('TGDown_cancel_download', handleCancel);
         this.proceedResolve = null;
       };
 
@@ -111,15 +111,15 @@ export class Interceptor {
         if (val) {
           // 兜底保存
           chrome.storage.local.set({
-            tgdesk_last_large_file_reminder_time: Date.now(),
+            TGDown_last_large_file_reminder_time: Date.now(),
           });
         }
         cleanup();
         resolve(val);
       };
 
-      document.addEventListener('tgdesk_proceed_download', handleProceed);
-      document.addEventListener('tgdesk_cancel_download', handleCancel);
+      document.addEventListener('TGDown_proceed_download', handleProceed);
+      document.addEventListener('TGDown_cancel_download', handleCancel);
 
       this.emit({
         kind: 'open',

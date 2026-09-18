@@ -90,7 +90,7 @@ function copyExtensionAssets(): PluginOption {
       const localesSrc = resolve(__dirname, '_locales');
       const localesDst = resolve(dist, '_locales');
       await fs.cp(localesSrc, localesDst, { recursive: true }).catch(() => {
-        console.warn('[TGDesk] _locales copy skipped (folder missing?)');
+        console.warn('[TGDown] _locales copy skipped (folder missing?)');
       });
       // 3. 复制 icons 目录
       const iconsSrc = resolve(__dirname, 'public/icons');
@@ -126,7 +126,7 @@ function copyExtensionAssets(): PluginOption {
       }
       // 5. 清理空的 src 目录
       await fs.rm(resolve(dist, 'src'), { recursive: true, force: true });
-      console.info('[TGDesk] manifest.json + icons + HTML flattened to dist/');
+      console.info('[TGDown] manifest.json + icons + HTML flattened to dist/');
     },
   };
 }

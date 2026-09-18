@@ -13,7 +13,7 @@
  *   3. 顶部注入一个工具栏:
  *      - [全选] [取消全选] [下载选中 N 项] [本月全部下载] [全部下载]
  *   4. 工具栏明确标记批量下载免费
- *   5. 用户点批量 -> 派发 tgdesk_batch_start 事件,page-injection 接管
+ *   5. 用户点批量 -> 派发 TGDown_batch_start 事件,page-injection 接管
  *
  * 所有批量入口均免费且不限制选择数量。
  */
@@ -45,7 +45,7 @@ export function startBatchDetection(): void {
   for (const sel of SEARCH_SELECTORS) {
     watchSelector(sel, () => {
       // 重新挂载工具栏(每次搜索内容变化可能需要刷新)
-      if (!document.getElementById('tgdesk-batch-toolbar')) {
+      if (!document.getElementById('TGDown-batch-toolbar')) {
         injectToolbar();
       }
       // 给每个新出现的 media-container 加 checkbox
@@ -64,10 +64,10 @@ function injectToolbar() {
   if (!anchor) return;
 
   // 防重
-  if (document.getElementById('tgdesk-batch-toolbar')) return;
+  if (document.getElementById('TGDown-batch-toolbar')) return;
 
   toolbar = document.createElement('div');
-  toolbar.id = 'tgdesk-batch-toolbar';
+  toolbar.id = 'TGDown-batch-toolbar';
   toolbar.style.cssText = `
     position: sticky;
     top: 0;
@@ -89,16 +89,16 @@ function injectToolbar() {
   `;
   toolbar.innerHTML = `
     <span style="font-weight:600;letter-spacing:0.3px;">📦 Batch download</span>
-    <button id="tgdesk-batch-all" style="${btnStyle('ghost')}">全选</button>
-    <button id="tgdesk-batch-none" style="${btnStyle('ghost')}">取消</button>
-    <span id="tgdesk-batch-count" style="opacity:0.85;font-variant-numeric:tabular-nums;">已选 0</span>
+    <button id="TGDown-batch-all" style="${btnStyle('ghost')}">全选</button>
+    <button id="TGDown-batch-none" style="${btnStyle('ghost')}">取消</button>
+    <span id="TGDown-batch-count" style="opacity:0.85;font-variant-numeric:tabular-nums;">已选 0</span>
     <span style="flex:1"></span>
-    <button id="tgdesk-batch-selected" style="${btnStyle('solid')}">
+    <button id="TGDown-batch-selected" style="${btnStyle('solid')}">
       ${ICON_SVG_BATCH}
       <span style="margin-left:4px;">下载选中</span>
     </button>
-    <button id="tgdesk-batch-month" style="${btnStyle('outline')}">本月全部</button>
-    <button id="tgdesk-batch-everything" style="${btnStyle('outline')}">全部下载</button>
+    <button id="TGDown-batch-month" style="${btnStyle('outline')}">本月全部</button>
+    <button id="TGDown-batch-everything" style="${btnStyle('outline')}">全部下载</button>
   `;
 
   // 找好插入点
@@ -106,11 +106,11 @@ function injectToolbar() {
   target.prepend(toolbar);
 
   // 绑定按钮
-  toolbar.querySelector('#tgdesk-batch-all')!.addEventListener('click', () => toggleAll(true));
-  toolbar.querySelector('#tgdesk-batch-none')!.addEventListener('click', () => toggleAll(false));
-  toolbar.querySelector('#tgdesk-batch-selected')!.addEventListener('click', () => downloadSelected());
-  toolbar.querySelector('#tgdesk-batch-month')!.addEventListener('click', () => downloadMonth());
-  toolbar.querySelector('#tgdesk-batch-everything')!.addEventListener('click', () => downloadEverything());
+  toolbar.querySelector('#TGDown-batch-all')!.addEventListener('click', () => toggleAll(true));
+  toolbar.querySelector('#TGDown-batch-none')!.addEventListener('click', () => toggleAll(false));
+  toolbar.querySelector('#TGDown-batch-selected')!.addEventListener('click', () => downloadSelected());
+  toolbar.querySelector('#TGDown-batch-month')!.addEventListener('click', () => downloadMonth());
+  toolbar.querySelector('#TGDown-batch-everything')!.addEventListener('click', () => downloadEverything());
 }
 
 function btnStyle(variant: 'solid' | 'outline' | 'ghost'): string {
@@ -137,12 +137,12 @@ function bindCheckboxes() {
     ...document.querySelectorAll<HTMLElement>(STORY_CONTAINER_SELECTOR),
   ];
   for (const c of containers) {
-    if (c.querySelector('.tgdesk-batch-cb')) continue;
+    if (c.querySelector('.TGDown-batch-cb')) continue;
     c.style.position ||= 'relative';
 
     const cb = document.createElement('input');
     cb.type = 'checkbox';
-    cb.className = 'tgdesk-batch-cb';
+    cb.className = 'TGDown-batch-cb';
     cb.style.cssText = `
       position: absolute;
       top: 6px;
@@ -160,13 +160,13 @@ function bindCheckboxes() {
 }
 
 function updateCount() {
-  const count = document.querySelectorAll<HTMLInputElement>('.tgdesk-batch-cb:checked').length;
-  const span = document.getElementById('tgdesk-batch-count');
+  const count = document.querySelectorAll<HTMLInputElement>('.TGDown-batch-cb:checked').length;
+  const span = document.getElementById('TGDown-batch-count');
   if (span) span.textContent = t('content.batchSelected', { count });
 }
 
 function toggleAll(state: boolean) {
-  document.querySelectorAll<HTMLInputElement>('.tgdesk-batch-cb').forEach((cb) => {
+  document.querySelectorAll<HTMLInputElement>('.TGDown-batch-cb').forEach((cb) => {
     cb.checked = state;
   });
   updateCount();
@@ -176,7 +176,7 @@ function toggleAll(state: boolean) {
 //  收集 URL
 // ============================================================
 function collectSelectedUrls(): string[] {
-  const cbs = document.querySelectorAll<HTMLInputElement>('.tgdesk-batch-cb:checked');
+  const cbs = document.querySelectorAll<HTMLInputElement>('.TGDown-batch-cb:checked');
   const urls: string[] = [];
   cbs.forEach((cb) => {
     const container = cb.closest('.media-container') as HTMLElement | null;
@@ -224,7 +224,7 @@ function collectAllUrlsInScope(scope: 'visible' | 'month' | 'all'): string[] {
 function dispatchBatch(urls: string[]) {
   if (!urls.length) return;
   document.dispatchEvent(
-    new CustomEvent('tgdesk_batch_start', {
+    new CustomEvent('TGDown_batch_start', {
       detail: { items: urls.map((u) => ({ url: u })) },
     }),
   );

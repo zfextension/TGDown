@@ -176,7 +176,7 @@ export function injectDownloadButton(
   ensureRelativePosition(container);
 
   const host = document.createElement('div');
-  host.className = 'tgdesk-btn-host';
+  host.className = 'TGDown-btn-host';
   host.style.cssText = `
     position: absolute;
     top: 8px;
@@ -253,7 +253,7 @@ export function injectDownloadButton(
     if (cur === 'loading' || cur === 'downloading') {
       if (ctrl.currentVideoId) {
         document.dispatchEvent(
-          new CustomEvent('tgdesk_button_cancel', {
+          new CustomEvent('TGDown_button_cancel', {
             detail: { videoId: ctrl.currentVideoId, downloadId: ctrl.currentDownloadId },
           }),
         );

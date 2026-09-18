@@ -34,19 +34,19 @@ const downloadingSelected = ref(false);
 
 async function loadList() {
   try {
-    const res = await chrome.storage.local.get('tgdesk_detected_media');
-    list.value = res.tgdesk_detected_media || [];
+    const res = await chrome.storage.local.get('TGDown_detected_media');
+    list.value = res.TGDown_detected_media || [];
     downloadTasks.value = await getDownloadTasks();
     syncSelection();
   } catch (e) {
-    console.error('[TGDesk] Failed to load detected media list', e);
+    console.error('[TGDown] Failed to load detected media list', e);
   }
 }
 
 function handleStorageChange(changes: { [key: string]: chrome.storage.StorageChange }, areaName: string) {
   if (areaName !== 'local') return;
-  if (changes.tgdesk_detected_media) {
-    list.value = changes.tgdesk_detected_media.newValue || [];
+  if (changes.TGDown_detected_media) {
+    list.value = changes.TGDown_detected_media.newValue || [];
     syncSelection();
   }
   if (changes[DOWNLOAD_TASKS_KEY]) {
@@ -109,12 +109,12 @@ async function cancelDownload(item: CachedMediaItem) {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tab?.id) {
       await chrome.tabs.sendMessage(tab.id, {
-        type: 'TGDESK_CANCEL_DOWNLOAD',
+        type: 'TGDown_CANCEL_DOWNLOAD',
         cacheId: item.id,
       });
     }
   } catch (e) {
-    console.error('[TGDesk] cancel download error', e);
+    console.error('[TGDown] cancel download error', e);
   }
 }
 
@@ -129,7 +129,7 @@ async function triggerDownload(item: CachedMediaItem) {
       const { [item.id]: _removed, ...rest } = downloadTasks.value;
       downloadTasks.value = rest;
     } catch (e) {
-      console.error('[TGDesk] clear failed task error', e);
+      console.error('[TGDown] clear failed task error', e);
     }
   }
 
@@ -142,10 +142,10 @@ async function triggerDownload(item: CachedMediaItem) {
       errorMessage.value = t('media.unsupportedTelegramPage');
       return;
     }
-    
+
     if (tab?.id && isTg) {
       const response = await chrome.tabs.sendMessage(tab.id, {
-        type: 'TGDESK_DOWNLOAD_CACHED_ITEM',
+        type: 'TGDown_DOWNLOAD_CACHED_ITEM',
         cacheId: item.id,
         item: {
           kind: item.kind,
@@ -172,7 +172,7 @@ async function triggerDownload(item: CachedMediaItem) {
       }
     }
   } catch (e) {
-    console.error('[TGDesk] download trigger error', e);
+    console.error('[TGDown] download trigger error', e);
     errorMessage.value = t('media.downloadTriggerError');
   }
 }
@@ -191,7 +191,7 @@ function copyLink(item: CachedMediaItem) {
 async function clearList() {
   if (confirm(t('media.clearConfirm'))) {
     try {
-      await chrome.storage.local.set({ tgdesk_detected_media: [] });
+      await chrome.storage.local.set({ TGDown_detected_media: [] });
       list.value = [];
       selectedIds.value.clear();
       isAllSelected.value = false;
@@ -224,7 +224,7 @@ function toggleSelectAll() {
 async function downloadSelected() {
   const selectedItems = list.value.filter(x => selectedIds.value.has(x.id));
   if (!selectedItems.length || downloadingSelected.value) return;
-  
+
   downloadingSelected.value = true;
   try {
     for (const item of selectedItems) {
@@ -258,9 +258,9 @@ function formatTime(ts: number): string {
     <div class="media-cache__header">
       <div class="media-cache__title">
         <label v-if="list.length" class="media-cache__checkbox-label media-cache__checkbox-label--master">
-          <input 
-            type="checkbox" 
-            :checked="isAllSelected" 
+          <input
+            type="checkbox"
+            :checked="isAllSelected"
             @change="toggleSelectAll"
             class="media-cache__checkbox"
           />
@@ -268,10 +268,10 @@ function formatTime(ts: number): string {
         <span>{{ t('media.title') }}</span>
         <span v-if="list.length" class="media-cache__badge">{{ list.length }}</span>
       </div>
-      
+
       <div class="media-cache__header-actions">
-        <button 
-          v-if="selectedIds.size" 
+        <button
+          v-if="selectedIds.size"
           class="media-cache__download-selected-btn"
           :disabled="downloadingSelected"
           @click="downloadSelected"
@@ -294,18 +294,18 @@ function formatTime(ts: number): string {
 
     <!-- 列表数据 -->
     <div v-else class="media-cache__list">
-      <div 
-        v-for="item in list" 
-        :key="item.id" 
-        class="media-cache__item" 
-        :class="{ 'media-cache__item--selected': selectedIds.has(item.id) }" 
+      <div
+        v-for="item in list"
+        :key="item.id"
+        class="media-cache__item"
+        :class="{ 'media-cache__item--selected': selectedIds.has(item.id) }"
         @click="toggleSelectItem(item.id)"
       >
         <!-- 单选框 -->
         <div class="media-cache__select-col" @click.stop>
-          <input 
-            type="checkbox" 
-            :checked="selectedIds.has(item.id)" 
+          <input
+            type="checkbox"
+            :checked="selectedIds.has(item.id)"
             @change="toggleSelectItem(item.id)"
             class="media-cache__checkbox"
           />
@@ -313,11 +313,11 @@ function formatTime(ts: number): string {
 
         <!-- 缩略图列 -->
         <div class="media-cache__thumb-col">
-          <img 
-            v-if="item.thumbnailUrl && !brokenImages.has(item.id)" 
-            :src="item.thumbnailUrl" 
-            class="media-cache__thumb-img" 
-            @error="handleImgError(item.id)" 
+          <img
+            v-if="item.thumbnailUrl && !brokenImages.has(item.id)"
+            :src="item.thumbnailUrl"
+            class="media-cache__thumb-img"
+            @error="handleImgError(item.id)"
             :alt="t('media.thumbAlt')"
             loading="lazy"
           />
@@ -333,7 +333,7 @@ function formatTime(ts: number): string {
             </svg>
           </div>
         </div>
-        
+
         <!-- 信息区 -->
         <div class="media-cache__info">
           <div class="media-cache__filename" :title="item.filename">

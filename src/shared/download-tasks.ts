@@ -1,8 +1,8 @@
 /** Popup 面板与 content / background 共享的下载任务状态（chrome.storage.local） */
-export const DOWNLOAD_TASKS_KEY = 'tgdesk_download_tasks';
+export const DOWNLOAD_TASKS_KEY = 'TGDown_download_tasks';
 
 /** Popup「已捕获媒体」列表（chrome.storage.local） */
-export const DETECTED_MEDIA_KEY = 'tgdesk_detected_media';
+export const DETECTED_MEDIA_KEY = 'TGDown_detected_media';
 
 export type DownloadTaskStatus = 'loading' | 'downloading' | 'done' | 'error' | 'cancelled';
 

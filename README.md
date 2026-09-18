@@ -1,4 +1,6 @@
-# tgdown — Telegram Web Media Downloader
+# TGDown — Telegram Web Media Downloader
+
+[简体中文](./README.zh-CN.md)
 
 A Chrome extension (Manifest V3) that sniffs and downloads videos and photos on Telegram Web, including private channels and groups.
 
@@ -38,6 +40,11 @@ npm run build:watch  # vite build --watch
 - `src/background/` — service worker (storage, downloads, messaging)
 - `src/shared/` — types and constants shared across scripts
 - `_locales/` — Chrome i18n messages
+
+## Roadmap
+
+- Download other media types beyond videos and photos (documents, audio, and more)
+- Support downloading Stories — media in user profiles
 
 ## License
 

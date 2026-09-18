@@ -5,7 +5,7 @@ import { LOCALE_DISPLAY_NAMES, SUPPORTED_LOCALES } from './types';
 
 export type TranslateFn = (key: string, params?: Record<string, string | number>) => string;
 
-const I18nTickKey: InjectionKey<Ref<number>> = Symbol('tgdesk-i18n-tick');
+const I18nTickKey: InjectionKey<Ref<number>> = Symbol('TGDown-i18n-tick');
 
 export function createI18nPlugin() {
   const tick = ref(0);

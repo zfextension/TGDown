@@ -12,7 +12,7 @@
  *
  * 我们的做法:
  *   - 注入一个 stories 专属的下载按钮到 viewer 顶部
- *   - 点击 -> dispatchEvent('tgdesk_story_download', { detail: { url, id } })
+ *   - 点击 -> dispatchEvent('TGDown_story_download', { detail: { url, id } })
  *   - page-injection 接管下载
  */
 
@@ -54,13 +54,13 @@ export function startStoriesDetection(): void {
 
 function injectStoriesButton() {
   // 防重复
-  if (document.getElementById('tgdesk-stories-btn')) return;
+  if (document.getElementById('TGDown-stories-btn')) return;
 
   const viewer = document.querySelector(STORIES_SELECTORS.join(','));
   if (!viewer) return;
 
   const btn = document.createElement('div');
-  btn.id = 'tgdesk-stories-btn';
+  btn.id = 'TGDown-stories-btn';
   btn.title = t('stories.downloadTitle');
   btn.style.cssText = `
     position: fixed;
@@ -120,7 +120,7 @@ async function downloadCurrentStory(): Promise<void> {
     STORIES_MEDIA_SELECTORS.join(','),
   );
   if (!media) {
-    console.warn('[TGDesk] no story media found');
+    console.warn('[TGDown] no story media found');
     return;
   }
 
@@ -134,13 +134,13 @@ async function downloadCurrentStory(): Promise<void> {
   }
 
   if (!url) {
-    console.warn('[TGDesk] story media has no src');
+    console.warn('[TGDown] story media has no src');
     return;
   }
 
   document.dispatchEvent(
-    new CustomEvent('tgdesk_story_download', {
-      detail: { url, id: 'tgdesk_story_' + Date.now() },
+    new CustomEvent('TGDown_story_download', {
+      detail: { url, id: 'TGDown_story_' + Date.now() },
     }),
   );
 }

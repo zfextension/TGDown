@@ -29,7 +29,7 @@ const telegramVersion = ref<TelegramWebVersion | null>(null);
 const activating = ref(false);
 const firstGuideVisible = ref(false);
 const activeTab = ref<'batch' | 'manual'>('batch');
-const FIRST_GUIDE_KEY = 'tgdesk.firstDownloadGuideSeen';
+const FIRST_GUIDE_KEY = 'TGDown.firstDownloadGuideSeen';
 
 async function refresh() {
   try {
@@ -50,7 +50,7 @@ async function refresh() {
       void handleActivate();
     }
   } catch (e) {
-    console.warn('[TGDesk] popup refresh failed', e);
+    console.warn('[TGDown] popup refresh failed', e);
   }
 }
 
@@ -72,7 +72,7 @@ async function handleActivate(active = true) {
   try {
     await activateTelegramWebTab({ active });
   } catch (e) {
-    console.warn('[TGDesk] activate telegram failed', e);
+    console.warn('[TGDown] activate telegram failed', e);
   } finally {
     activating.value = false;
   }

@@ -9,7 +9,7 @@
  *   - 上报:
  *       {id}_video_download_progress: { video_id, progress, page, download_id, phase }
  *       {id}_video_download_done:      { video_id, ok, error?, filename?, size? }
- *   - 监听 'tgdesk_story_download': 触发 stories 单个下载
+ *   - 监听 'TGDown_story_download': 触发 stories 单个下载
  *       { url, id }
  *
  * 新增能力(对齐竞品 + 引流改造):
@@ -20,12 +20,12 @@
  */
 
 (() => {
-  if ((window as any).__TGDESK_PAGE_INJECTED__) return;
-  (window as any).__TGDESK_PAGE_INJECTED__ = true;
+  if ((window as any).__TGDown_PAGE_INJECTED__) return;
+  (window as any).__TGDown_PAGE_INJECTED__ = true;
 
   const log = (msg: string, ...rest: unknown[]) => {
     // eslint-disable-next-line no-console
-    console.info('[TGDesk/page]', msg, ...rest);
+    console.info('[TGDown/page]', msg, ...rest);
   };
 
   // ---- 扩展下载专用 fetch ----
@@ -136,7 +136,7 @@
       new CustomEvent(id + '_video_download_progress', { detail }),
     );
     document.dispatchEvent(
-      new CustomEvent('tgdesk_video_download_progress', { detail }),
+      new CustomEvent('TGDown_video_download_progress', { detail }),
     );
   }
 
@@ -146,7 +146,7 @@
       new CustomEvent(id + '_video_download_done', { detail }),
     );
     document.dispatchEvent(
-      new CustomEvent('tgdesk_video_download_done', { detail }),
+      new CustomEvent('TGDown_video_download_done', { detail }),
     );
   }
 
@@ -535,17 +535,17 @@
       while (i < total) {
         const idx = i++;
         const item = items[idx];
-        const id = 'tgdesk_batch_' + Date.now() + '_' + idx;
+        const id = 'TGDown_batch_' + Date.now() + '_' + idx;
         const downloadId = 'batch_' + idx;
         // 触发 batch 进度事件
         document.dispatchEvent(
-          new CustomEvent('tgdesk_batch_progress', {
+          new CustomEvent('TGDown_batch_progress', {
             detail: { current: idx + 1, total, url: item.url, id },
           }),
         );
         await handleDownload(item.url, id, 0, downloadId);
       }
-      document.dispatchEvent(new CustomEvent('tgdesk_batch_done', { detail: { total } }));
+      document.dispatchEvent(new CustomEvent('TGDown_batch_done', { detail: { total } }));
     };
 
     Promise.all(Array.from({ length: Math.min(CONCURRENCY, total) }, () => next()));
@@ -568,15 +568,15 @@
   });
 
   // 2) 故事下载(单图/单视频)
-  document.addEventListener('tgdesk_story_download', (ev: Event) => {
+  document.addEventListener('TGDown_story_download', (ev: Event) => {
     const detail = (ev as CustomEvent).detail;
     if (!detail?.url) return;
-    const id = detail.id || 'tgdesk_story_' + Date.now();
+    const id = detail.id || 'TGDown_story_' + Date.now();
     handleDownload(detail.url, id, 0, id);
   });
 
   // 3) 批量任务入口
-  document.addEventListener('tgdesk_batch_start', (ev: Event) => {
+  document.addEventListener('TGDown_batch_start', (ev: Event) => {
     const detail = (ev as CustomEvent).detail;
     if (!detail?.items?.length) return;
     startBatch(detail.items);

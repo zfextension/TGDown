@@ -40,7 +40,7 @@ export const SUPPORTED_LOCALES: AppLocale[] = [
 
 export const DEFAULT_LOCALE: AppLocale = 'en';
 
-export const LOCALE_STORAGE_KEY = 'tgdesk_locale';
+export const LOCALE_STORAGE_KEY = 'TGDown_locale';
 
 /** 语言选择器展示名（不经过 i18n，避免循环） */
 export const LOCALE_DISPLAY_NAMES: Record<AppLocale, string> = {

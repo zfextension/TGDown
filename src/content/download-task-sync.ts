@@ -2,8 +2,8 @@
  * Popup 下载进度同步（content 专用，须打进 content.js，不可 import @shared chunk）
  * 逻辑与 src/shared/download-tasks.ts 保持同步
  */
-export const DOWNLOAD_TASKS_KEY = 'tgdesk_download_tasks';
-export const DETECTED_MEDIA_KEY = 'tgdesk_detected_media';
+export const DOWNLOAD_TASKS_KEY = 'TGDown_download_tasks';
+export const DETECTED_MEDIA_KEY = 'TGDown_detected_media';
 
 export type DownloadTaskStatus = 'loading' | 'downloading' | 'done' | 'error' | 'cancelled';
 

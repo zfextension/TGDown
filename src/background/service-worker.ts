@@ -33,7 +33,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     );
     chrome.tabs.create({ url: guideUrl, active: true });
 
-    console.info('[TGDesk] installed');
+    console.info('[TGDown] installed');
   }
 });
 
@@ -57,7 +57,7 @@ chrome.runtime.onMessage.addListener((msg: ContentToBg, _sender, sendResponse) =
   handleMessage(msg)
     .then((res) => sendResponse(res))
     .catch((err) => {
-      console.error('[TGDesk] bg handler error', err);
+      console.error('[TGDown] bg handler error', err);
       sendResponse({ ok: false, error: String(err) });
     });
   return true; // 保持消息通道打开

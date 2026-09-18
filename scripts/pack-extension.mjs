@@ -3,7 +3,7 @@
  * pack-extension.mjs
  *
  * 在 vite build 之后把 dist/ 打成可上传 Chrome Web Store 的 zip。
- * 产物名: tgdesk-downloader-<version>.zip (与 manifest.json 的 version 同步)
+ * 产物名: TGDown-downloader-<version>.zip (与 manifest.json 的 version 同步)
  *
  * 不引入额外依赖: 优先用系统 `zip` (macOS/Linux 自带),
  * 缺失时报错并提示安装。Windows 需先安装 zip (例如 via scoop/choco)。
@@ -25,7 +25,7 @@ async function main() {
     process.exit(1);
   });
   const { version } = JSON.parse(manifestRaw);
-  const zipName = `tgdesk-downloader-v${version}.zip`;
+  const zipName = `TGDown-downloader-v${version}.zip`;
   const zipPath = resolve(root, zipName);
 
   await fs.rm(zipPath, { force: true });

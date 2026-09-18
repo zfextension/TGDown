@@ -35,7 +35,7 @@ async function detect() {
     }
     // 探测内容状态(content script 暴露一个 PING 接口)
     try {
-      const res = await chrome.tabs.sendMessage(tab.id!, { type: 'TGDESK_PING' });
+      const res = await chrome.tabs.sendMessage(tab.id!, { type: 'TGDown_PING' });
       status.value = {
         isTg: true,
         hasSearch: !!res?.hasSearch,

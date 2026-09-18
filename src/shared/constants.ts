@@ -20,11 +20,11 @@ export const SHARE_INVITE_INTERVAL = 30;
 export const SHARE_PAGE_URL = 'https://tgdown.wadesk.io/';
 
 export const STORAGE_KEYS = {
-  INSTALL_TIME: 'tgdesk.installedAt',
-  DOWNLOAD_SUCCESS_COUNT: 'tgdesk.downloadSuccessCount',
-  REVIEW_INVITE_HANDLED: 'tgdesk.reviewInviteHandled',
+  INSTALL_TIME: 'TGDown.installedAt',
+  DOWNLOAD_SUCCESS_COUNT: 'TGDown.downloadSuccessCount',
+  REVIEW_INVITE_HANDLED: 'TGDown.reviewInviteHandled',
   /** 上次展示分享提示时的成功下载次数, 用于算间隔 */
-  SHARE_INVITE_LAST_AT: 'tgdesk.shareInviteLastAt',
+  SHARE_INVITE_LAST_AT: 'TGDown.shareInviteLastAt',
 } as const;
 
 export const MESSAGE_TYPES = {

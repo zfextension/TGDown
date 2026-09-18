@@ -24,7 +24,7 @@ export const SHARE_INVITE_INTERVAL = 30;
 export const SHARE_PAGE_URL = 'https://tgdown.wadesk.io/';
 
 export const STORAGE_KEYS = {
-  INSTALL_TIME: 'tgdesk.installedAt',
+  INSTALL_TIME: 'TGDown.installedAt',
 } as const;
 
 export const MESSAGE_TYPES = {
@@ -38,7 +38,7 @@ export const MESSAGE_TYPES = {
 
 // ---------- Content Script 内联 i18n ----------
 // Content Script 不能依赖外部 chunk，因此只内联页面注入按钮/提示所需文案。
-export const LOCALE_STORAGE_KEY = 'tgdesk_locale';
+export const LOCALE_STORAGE_KEY = 'TGDown_locale';
 
 type InlineLocale = 'en' | 'zh';
 

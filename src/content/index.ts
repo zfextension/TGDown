@@ -53,7 +53,7 @@ try {
         rtt: (navigator as any).connection.rtt,
       }
     : null;
-  console.info('[TGDesk/Diag] Content script loaded', {
+  console.info('[TGDown/Diag] Content script loaded', {
     readyState: _diagReadyState,
     tgRootExists: _diagTgRoot,
     tgReactExists: _diagTgReact,
@@ -68,17 +68,17 @@ try {
   injectPageWorld();
 
   // ---------- 防重入 + 延后启动 ----------
-  if (!(window as any).__TGDESK_INSTALLED__) {
-    (window as any).__TGDESK_INSTALLED__ = true;
+  if (!(window as any).__TGDown_INSTALLED__) {
+    (window as any).__TGDown_INSTALLED__ = true;
     // 关键: setTimeout(0) 让模块顶层 const 先完成初始化
     setTimeout(() => {
       boot()
-        .then(() => console.info('[TGDesk] content script loaded'))
-        .catch((e) => console.error('[TGDesk] boot() failed', e));
+        .then(() => console.info('[TGDown] content script loaded'))
+        .catch((e) => console.error('[TGDown] boot() failed', e));
     }, 0);
   }
 } catch (e) {
-  console.error('[TGDesk] content script boot failed', e);
+  console.error('[TGDown] content script boot failed', e);
 }
 
 let downloadSession: DownloadSessionMeta | null = null;
@@ -101,7 +101,7 @@ async function initDownloadSession(): Promise<DownloadSessionMeta> {
 
 async function boot(): Promise<void> {
   const bootStart = performance.now();
-  console.info('[TGDesk/Diag] boot() started', {
+  console.info('[TGDown/Diag] boot() started', {
     readyState: document.readyState,
     perfNow: Math.round(bootStart),
     tgApp: !!document.querySelector('#app, .application'),
@@ -111,12 +111,12 @@ async function boot(): Promise<void> {
   // ---- Phase 1: locale ----
   const t1 = performance.now();
   await initContentLocale();
-  console.info('[TGDesk/Diag] initContentLocale done', { ms: Math.round(performance.now() - t1) });
+  console.info('[TGDown/Diag] initContentLocale done', { ms: Math.round(performance.now() - t1) });
 
   // ---- Phase 2: session init ----
   const t2 = performance.now();
   await initDownloadSession();
-  console.info('[TGDesk/Diag] initDownloadSession done', { ms: Math.round(performance.now() - t2) });
+  console.info('[TGDown/Diag] initDownloadSession done', { ms: Math.round(performance.now() - t2) });
 
   // ---- Phase 3: modal host injection (关键 DOM 操作) ----
   const t3 = performance.now();
@@ -128,7 +128,7 @@ async function boot(): Promise<void> {
     bodyChildCount: document.body?.childElementCount ?? -1,
     htmlChildCount: document.documentElement?.childElementCount ?? -1,
   };
-  console.info('[TGDesk/Diag] Before loadModalHost', {
+  console.info('[TGDown/Diag] Before loadModalHost', {
     readyState: readyStateBeforeModal,
     ...tgStateBeforeModal,
   });
@@ -136,10 +136,10 @@ async function boot(): Promise<void> {
   // 加载 Shadow DOM Modal 资源
   const modalApi = loadModalHost();
   const modalMs = Math.round(performance.now() - t3);
-  console.info('[TGDesk/Diag] loadModalHost done', {
+  console.info('[TGDown/Diag] loadModalHost done', {
     ms: modalMs,
     readyState: document.readyState,
-    modalRootExists: !!document.getElementById('tgdesk-modal-root'),
+    modalRootExists: !!document.getElementById('TGDown-modal-root'),
   });
 
   let interceptor: Interceptor;
@@ -161,7 +161,7 @@ async function boot(): Promise<void> {
   // 监听 background / popup 消息
   chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     const senderTabId = sender.tab?.id;
-    if (msg?.type === 'TGDESK_PING') {
+    if (msg?.type === 'TGDown_PING') {
       // Popup 探测:返回当前 tab 的功能可用性
       sendResponse({
         hasSearch: !!document.querySelector(
@@ -171,17 +171,17 @@ async function boot(): Promise<void> {
       });
       return true;
     }
-    if (msg?.type === 'TGDESK_DOWNLOAD_CACHED_ITEM') {
+    if (msg?.type === 'TGDown_DOWNLOAD_CACHED_ITEM') {
       const cachedItem = msg.item;
       const cacheId = msg.cacheId as string | undefined;
       if (cachedItem && cacheId) {
-        console.log('[TGDesk] Triggering download for cached item:', cacheId, cachedItem);
+        console.log('[TGDown] Triggering download for cached item:', cacheId, cachedItem);
         void handleCachedItemDownload(cachedItem, cacheId, interceptor, senderTabId);
       }
       sendResponse({ ok: true });
       return true;
     }
-    if (msg?.type === 'TGDESK_CANCEL_DOWNLOAD') {
+    if (msg?.type === 'TGDown_CANCEL_DOWNLOAD') {
       const cacheId = msg.cacheId as string | undefined;
       if (cacheId) void cancelCachedItemDownload(cacheId);
       sendResponse({ ok: true });
@@ -197,7 +197,7 @@ async function boot(): Promise<void> {
   // 原先这里紧接着还会调一次 modalApi.toast(t('content.downloadDoneToast')),
   // 但那条文案在 en/zh 里都是空串、toast() 遇空串直接 return ——
   // 这是个从来没渲染过的空槽, 位置正好留给分享提示。
-  document.addEventListener('tgdesk_video_download_done', (ev: Event) => {
+  document.addEventListener('TGDown_video_download_done', (ev: Event) => {
     const detail = (ev as CustomEvent).detail;
     if (!detail) return;
     if (detail.ok) {
@@ -218,7 +218,7 @@ async function boot(): Promise<void> {
         })
         .catch(() => {});
     } else {
-      console.error('[TGDesk] download error', detail.error);
+      console.error('[TGDown] download error', detail.error);
       const errStr = String(detail.error || '');
       if (!errStr.includes('AbortError') && !errStr.includes('Aborted')) {
         modalApi.toast(t('content.networkError'));
@@ -227,13 +227,13 @@ async function boot(): Promise<void> {
   });
 
   // 批量下载进度
-  document.addEventListener('tgdesk_batch_progress', (ev: Event) => {
+  document.addEventListener('TGDown_batch_progress', (ev: Event) => {
     const d = (ev as CustomEvent).detail;
     if (d) {
       document.title = t('content.batchProgress', { current: d.current, total: d.total });
     }
   });
-  document.addEventListener('tgdesk_batch_done', () => {
+  document.addEventListener('TGDown_batch_done', () => {
     document.title = document.title.replace(/\[批量 [^\]]+\]\s*/, '');
   });
 
@@ -248,7 +248,7 @@ async function boot(): Promise<void> {
 
   // ---- boot() 完成 ----
   const bootMs = Math.round(performance.now() - bootStart);
-  console.info('[TGDesk/Diag] boot() complete', {
+  console.info('[TGDown/Diag] boot() complete', {
     totalMs: bootMs,
     readyState: document.readyState,
     tgApp: !!document.querySelector('#app, .application'),
@@ -276,7 +276,7 @@ function injectPageWorld(): void {
   // 注册下载事件，避免进入官方应用初始化链路。
   const doInject = () => {
     const injectTime = performance.now();
-    console.info('[TGDesk/Diag] doInject called', {
+    console.info('[TGDown/Diag] doInject called', {
       ms: Math.round(injectTime),
       headExists: !!document.head,
       readyState: document.readyState,
@@ -285,40 +285,40 @@ function injectPageWorld(): void {
     });
     if (!document.head) return;
     // 防重入
-    if (document.getElementById('__tgdesk_page_injected__')) return;
+    if (document.getElementById('__TGDown_page_injected__')) return;
     const marker = document.createElement('meta');
-    marker.id = '__tgdesk_page_injected__';
+    marker.id = '__TGDown_page_injected__';
     document.head.appendChild(marker);
 
     const s = document.createElement('script');
     s.src = chrome.runtime.getURL('page-injection.js');
     s.async = false;
     s.onload = () => {
-      console.info('[TGDesk/Diag] page-injection.js loaded', {
+      console.info('[TGDown/Diag] page-injection.js loaded', {
         ms: Math.round(performance.now() - injectTime),
         readyState: document.readyState,
       });
       s.remove();
     };
     s.onerror = () => {
-      console.error('[TGDesk] page-injection load failed');
+      console.error('[TGDown] page-injection load failed');
       s.remove();
     };
     document.head.appendChild(s);
   };
 
   if (document.readyState === 'complete') {
-    console.info('[TGDesk/Diag] injectPageWorld: already complete, scheduling doInject +2s', {
+    console.info('[TGDown/Diag] injectPageWorld: already complete, scheduling doInject +2s', {
       perfNow: Math.round(performance.now()),
     });
     setTimeout(doInject, 2000);
   } else {
-    console.info('[TGDesk/Diag] injectPageWorld: waiting for load event', {
+    console.info('[TGDown/Diag] injectPageWorld: waiting for load event', {
       readyState: document.readyState,
       perfNow: Math.round(performance.now()),
     });
     window.addEventListener('load', () => {
-      console.info('[TGDesk/Diag] load event fired, scheduling doInject +2s', {
+      console.info('[TGDown/Diag] load event fired, scheduling doInject +2s', {
         perfNow: Math.round(performance.now()),
         readyState: document.readyState,
       });
@@ -837,7 +837,7 @@ function generateFilename(
       const cleanId = closestId.replace(/[^a-zA-Z0-9_-]/g, '_');
       return `tg_${cleanId}.${ext}`;
     }
-    const msgIdAttr = idSource.closest('[data-message-id]')?.getAttribute('data-message-id') || 
+    const msgIdAttr = idSource.closest('[data-message-id]')?.getAttribute('data-message-id') ||
                       idSource.getAttribute('data-message-id');
     if (msgIdAttr) {
       return `tg_msg_${msgIdAttr}.${ext}`;
@@ -953,7 +953,7 @@ function attachPanelDownloadListeners(
   const cleanup = () => {
     document.removeEventListener(videoId + '_video_download_progress', onProgressEvent);
     document.removeEventListener(videoId + '_video_download_done', onDoneEvent);
-    document.removeEventListener('tgdesk_button_cancel', onCancelClick);
+    document.removeEventListener('TGDown_button_cancel', onCancelClick);
     if (ctrl && ctrl.currentVideoId === videoId) {
       ctrl.currentVideoId = null;
       ctrl.currentDownloadId = null;
@@ -962,7 +962,7 @@ function attachPanelDownloadListeners(
 
   document.addEventListener(videoId + '_video_download_progress', onProgressEvent);
   document.addEventListener(videoId + '_video_download_done', onDoneEvent);
-  document.addEventListener('tgdesk_button_cancel', onCancelClick);
+  document.addEventListener('TGDown_button_cancel', onCancelClick);
 
   return cleanup;
 }
@@ -974,7 +974,7 @@ async function runDownloadWithPanelProgress(
   ctrl?: ButtonController,
   resolveUrl?: () => Promise<{ url: string; duration?: number } | null>,
 ): Promise<void> {
-  const videoId = 'tgdesk_video_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+  const videoId = 'TGDown_video_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
   const downloadId = crypto.randomUUID();
 
   if (ctrl) {
@@ -1032,7 +1032,7 @@ async function runDownloadWithPanelProgress(
       setTimeout(() => closeMediaViewer(), 400);
     }
   } catch (err) {
-    console.error('[TGDesk] handleDownload error', err);
+    console.error('[TGDown] handleDownload error', err);
     cleanupListeners();
     ctrl?.setState({ kind: 'error', message: t('content.handleDownloadFailed') });
     if (cacheId && downloadSession) {
@@ -1090,7 +1090,7 @@ async function cancelCachedItemDownload(cacheId: string): Promise<void> {
   const task = await getDownloadTask(cacheId);
   if (task?.videoId) {
     document.dispatchEvent(
-      new CustomEvent('tgdesk_button_cancel', {
+      new CustomEvent('TGDown_button_cancel', {
         detail: { videoId: task.videoId, downloadId: task.downloadId },
       }),
     );
@@ -1110,7 +1110,7 @@ async function dispatchDownload(
   videoId?: string,
   downloadId?: string,
 ): Promise<void> {
-  const vId = videoId || 'tgdesk_' + Date.now();
+  const vId = videoId || 'TGDown_' + Date.now();
   const dlId = downloadId || crypto.randomUUID();
 
   document.dispatchEvent(
@@ -1433,8 +1433,8 @@ function startGlobalVideoDetection(): void {
           return;
         }
 
-        console.log('[TGDesk] Global video observer captured URL:', videoUrl.slice(0, 60));
-        
+        console.log('[TGDown] Global video observer captured URL:', videoUrl.slice(0, 60));
+
         // 查找最关联的气泡以获取文件名和缩略图
         // 优先从视频本身所在的媒体容器内取缩略图，而非在整个 bubble 范围内查找（避免误取头像）
         const mediaContainer = videoEl.closest<HTMLElement>('.media-inner, .attachment.media-container, .album-item-media');
@@ -1534,16 +1534,16 @@ async function addMediaToCache(item: MediaItem): Promise<void> {
   // 将每次调用排队，确保每次写入完成后才进行下一次
   cacheWriteQueue = cacheWriteQueue
     .then(() => doAddMediaToCache(item))
-    .catch((e) => console.error('[TGDesk] cacheWriteQueue error', e));
+    .catch((e) => console.error('[TGDown] cacheWriteQueue error', e));
   return cacheWriteQueue;
 }
 
 async function doAddMediaToCache(item: MediaItem): Promise<void> {
   if (!item.url || item.url.startsWith('data:image/svg')) return;
   try {
-    const res = await chrome.storage.local.get('tgdesk_detected_media');
-    let list = res.tgdesk_detected_media || [];
-    
+    const res = await chrome.storage.local.get('TGDown_detected_media');
+    let list = res.TGDown_detected_media || [];
+
     // 检查是否已存在 (相同链接或者类型和名字都相同)
     const existingIndex = list.findIndex(
       (x: any) => x.url === item.url || (x.filename === item.filename && x.kind === item.kind)
@@ -1568,7 +1568,7 @@ async function doAddMediaToCache(item: MediaItem): Promise<void> {
         existingItem.thumbnailUrl = finalThumbnailUrl;
         if (newPixels > 0) existingItem.thumbnailPixels = newPixels;
         updated = true;
-        console.info('[TGDesk] Updated thumbnail for existing media:', item.kind, item.filename);
+        console.info('[TGDown] Updated thumbnail for existing media:', item.kind, item.filename);
       }
 
       if (
@@ -1583,7 +1583,7 @@ async function doAddMediaToCache(item: MediaItem): Promise<void> {
       }
 
       if (updated) {
-        await chrome.storage.local.set({ tgdesk_detected_media: list });
+        await chrome.storage.local.set({ TGDown_detected_media: list });
       }
       return;
     }
@@ -1596,7 +1596,7 @@ async function doAddMediaToCache(item: MediaItem): Promise<void> {
     }
 
     const newItem: Record<string, unknown> = {
-      id: 'tgdesk_cache_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9),
+      id: 'TGDown_cache_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9),
       kind: item.kind,
       url: item.url,
       filename: item.filename,
@@ -1611,10 +1611,10 @@ async function doAddMediaToCache(item: MediaItem): Promise<void> {
     if (list.length > 100) {
       list = list.slice(0, 100);
     }
-    await chrome.storage.local.set({ tgdesk_detected_media: list });
-    console.info('[TGDesk] Media item cached:', item.kind, item.filename);
+    await chrome.storage.local.set({ TGDown_detected_media: list });
+    console.info('[TGDown] Media item cached:', item.kind, item.filename);
   } catch (e) {
-    console.error('[TGDesk] Failed to cache media item', e);
+    console.error('[TGDown] Failed to cache media item', e);
   }
 }
 
@@ -1656,7 +1656,7 @@ async function downloadVideoFromContainer(
   // ── 策略1: 容器内已存在 <video> ──
   const resolvedEarly = await resolveVideoDownloadUrl(container, item.url);
   if (resolvedEarly?.url) {
-    console.log('[TGDesk] 策略1: 容器内已有可下载 video URL');
+    console.log('[TGDown] 策略1: 容器内已有可下载 video URL');
     await startWithUrl(resolvedEarly.url, resolvedEarly.duration);
     return;
   }
@@ -1704,7 +1704,7 @@ async function downloadVideoFromContainer(
       bubbles: true, cancelable: true, view: window,
       clientX: cx, clientY: cy, screenX: cx, screenY: cy,
     };
-    console.log('[TGDesk] 尝试点击:', target.tagName, target.className.substring(0, 60));
+    console.log('[TGDown] 尝试点击:', target.tagName, target.className.substring(0, 60));
     for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'] as const) {
       target.dispatchEvent(
         new (type.startsWith('pointer') ? PointerEvent : MouseEvent)(type, init),
@@ -1717,7 +1717,7 @@ async function downloadVideoFromContainer(
       '.media-viewer-mover video, .media-viewer video, video.media-video, .media-inner video',
     ) ?? container.querySelector<HTMLVideoElement>('video');
     if (quick && (quick.currentSrc || quick.src)) {
-      console.log('[TGDesk] ✅ 点击 [' + target.tagName + '.' + target.className.split(' ')[0] + '] 成功触发 viewer');
+      console.log('[TGDown] ✅ 点击 [' + target.tagName + '.' + target.className.split(' ')[0] + '] 成功触发 viewer');
       resolver.resolve(quick);
       break;
     }
@@ -1726,19 +1726,19 @@ async function downloadVideoFromContainer(
   const video = await videoPromise;
 
   if (!video) {
-    console.error('[TGDesk] ❌ 所有点击目标均无法触发 viewer');
+    console.error('[TGDown] ❌ 所有点击目标均无法触发 viewer');
     ctrl?.setState({ kind: 'error', message: t('content.cannotOpenVideo') });
     return;
   }
 
   const resolved = await resolveVideoDownloadUrl(container, pickBestVideoSrc(video) || item.url);
   if (!resolved?.url) {
-    console.error('[TGDesk] video 无有效下载链接');
+    console.error('[TGDown] video 无有效下载链接');
     ctrl?.setState({ kind: 'error', message: t('content.noVideoUrl') });
     return;
   }
 
-  console.log('[TGDesk] 获取到 video src, 开始下载');
+  console.log('[TGDown] 获取到 video src, 开始下载');
   await startWithUrl(resolved.url, resolved.duration ?? video.duration);
 }
 
@@ -1762,7 +1762,7 @@ function closeMediaViewer(): boolean {
       return true;
     }
   }
-  
+
   // 仅在发现大图/大视频查看器开启时,再发送 Esc 键
   const hasViewer = !!document.querySelector(
     '.media-viewer, .media-viewer-mover, .media-viewer-container'
@@ -1871,7 +1871,7 @@ function loadModalHost(): ModalApi {
     if (surface) return surface;
 
     host = document.createElement('div');
-    host.id = 'tgdesk-modal-root';
+    host.id = 'TGDown-modal-root';
     host.style.cssText = 'position:fixed;inset:0;z-index:2147483647;pointer-events:none;background:transparent;';
     document.documentElement.appendChild(host);
 
@@ -1923,7 +1923,7 @@ function loadModalHost(): ModalApi {
 
   const closeLargeFile = () => {
     unmount();
-    document.dispatchEvent(new CustomEvent('tgdesk_cancel_download'));
+    document.dispatchEvent(new CustomEvent('TGDown_cancel_download'));
   };
 
   return {
@@ -1968,7 +1968,7 @@ function loadModalHost(): ModalApi {
         });
         primary.addEventListener('click', () => {
           unmount();
-          document.dispatchEvent(new CustomEvent('tgdesk_proceed_download', { detail: { dontRemind: dontRemind.checked } }));
+          document.dispatchEvent(new CustomEvent('TGDown_proceed_download', { detail: { dontRemind: dontRemind.checked } }));
           chrome.runtime.sendMessage({ type: MESSAGE_TYPES.PROCEED_DOWNLOAD }).catch(() => {});
         });
         card.append(title, desc, option, actions);
