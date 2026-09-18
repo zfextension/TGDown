@@ -2,6 +2,9 @@
 
 [English](./README.md)
 
+[![Chrome 应用商店](https://img.shields.io/badge/Chrome%20%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97-%E5%AE%89%E8%A3%85-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
+[![官网](https://img.shields.io/badge/%E5%AE%98%E7%BD%91-tgdown.wadesk.io-000000)](https://tgdown.wadesk.io/)
+
 一款 Chrome 扩展（Manifest V3），用于嗅探并下载 Telegram 网页版中的视频和照片，支持私密频道与群组。
 
 ## 功能特性
@@ -12,7 +15,11 @@
 - 无需扩展账号 —— 照常登录 Telegram 网页版即可
 - 支持 17 种界面语言
 
-## 从源码安装
+## 安装
+
+**从 Chrome 应用商店安装**（推荐）—— [Chrome 应用商店页面](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
+
+**从源码安装** —— 自行构建并加载未打包的扩展：
 
 ```bash
 npm install
@@ -22,6 +29,11 @@ npm run build
 然后打开 `chrome://extensions`，开启**开发者模式**，点击**加载已解压的扩展程序**，选择 `dist/` 目录。
 
 > `npm run dev` 只会启动 Vite 开发服务器，并不会安装扩展。构建完成后仍需手动加载 `dist/` 目录。
+
+## 相关链接
+
+- 官网：<https://tgdown.wadesk.io/>
+- Chrome 应用商店：<https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn>
 
 ## 开发
 

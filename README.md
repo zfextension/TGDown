@@ -2,6 +2,9 @@
 
 [简体中文](./README.zh-CN.md)
 
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
+[![Website](https://img.shields.io/badge/Website-tgdown.wadesk.io-000000)](https://tgdown.wadesk.io/)
+
 A Chrome extension (Manifest V3) that sniffs and downloads videos and photos on Telegram Web, including private channels and groups.
 
 ## Features
@@ -12,7 +15,11 @@ A Chrome extension (Manifest V3) that sniffs and downloads videos and photos on 
 - No extension account required — just sign in to Telegram Web as usual
 - 17 UI languages
 
-## Install from source
+## Install
+
+**From the Chrome Web Store** (recommended) — [Chrome Web Store listing](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
+
+**From source** — build and load the unpacked extension:
 
 ```bash
 npm install
@@ -22,6 +29,11 @@ npm run build
 Then open `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the `dist/` folder.
 
 > `npm run dev` only starts the Vite dev server; it does not install the extension. Load `dist/` manually after building.
+
+## Links
+
+- Website: <https://tgdown.wadesk.io/>
+- Chrome Web Store: <https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn>
 
 ## Development
 
