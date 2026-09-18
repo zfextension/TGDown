@@ -2,8 +2,8 @@
 
 [English](./README.md)
 
-[![Chrome 应用商店](https://img.shields.io/badge/Chrome%20%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97-%E5%AE%89%E8%A3%85-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
-[![官网](https://img.shields.io/badge/%E5%AE%98%E7%BD%91-tgdown.wadesk.io-000000)](https://tgdown.wadesk.io/)
+[![Telegram 视频下载器 TGDown — Chrome 应用商店](https://img.shields.io/badge/Chrome%20%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97-%E5%AE%89%E8%A3%85-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
+[![Telegram 视频下载器 TGDown — 官网](https://img.shields.io/badge/%E5%AE%98%E7%BD%91-tgdown.wadesk.io-000000)](https://tgdown.wadesk.io/)
 
 一款 Chrome 扩展（Manifest V3），用于嗅探并下载 Telegram 网页版中的视频和照片，支持私密频道与群组。
 
@@ -17,7 +17,9 @@
 
 ## 安装
 
-**从 Chrome 应用商店安装**（推荐）—— [Chrome 应用商店页面](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
+**从 Chrome 应用商店安装**（推荐）—— 安装
+[Telegram 视频下载器 TGDown](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)，
+支持无限批量下载。
 
 **从源码安装** —— 自行构建并加载未打包的扩展：
 
@@ -32,8 +34,8 @@ npm run build
 
 ## 相关链接
 
-- 官网：<https://tgdown.wadesk.io/>
-- Chrome 应用商店：<https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn>
+- **官网** —— [TGDown：免费的 Telegram 视频下载器](https://tgdown.wadesk.io/)
+- **Chrome 应用商店** —— [Telegram 视频下载器 TGDown（支持无限批量下载）](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
 
 ## 开发
 
