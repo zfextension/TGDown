@@ -1,11 +1,18 @@
+<div align="center">
+
+<img src="./public/icons/logo_128.png" width="120" height="120" alt="TGDown logo" />
+
 # TGDown — Telegram Web Media Downloader
 
-[简体中文](./README.zh-CN.md)
+A Chrome extension (Manifest V3) that sniffs and downloads videos and photos on
+Telegram Web, including private channels and groups.
 
 [![Free Telegram Video Downloader — Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)
 [![TGDown Telegram Video Downloader — Official Website](https://img.shields.io/badge/Website-tgdown.wadesk.io-000000)](https://tgdown.wadesk.io/)
 
-A Chrome extension (Manifest V3) that sniffs and downloads videos and photos on Telegram Web, including private channels and groups.
+[简体中文](./README.zh-CN.md)
+
+</div>
 
 ## Features
 
