@@ -21,6 +21,20 @@
 - 无需扩展账号 —— 照常登录 Telegram 网页版即可
 - 支持 17 种界面语言
 
+## 预览
+
+### 一键下载
+
+视频和大图上都会出现下载图标，点一下即可保存原始画质，无需复制链接。
+
+![Telegram 网页版一键下载](screenshots/one-click-zh.png)
+
+### 批量下载
+
+从工具栏打开 TGDown，本页所有检测到的媒体一目了然。多选后一次下载。
+
+![批量下载，一次多个文件](screenshots/batch-zh.png)
+
 ## 安装
 
 推荐从 [Chrome 应用商店安装](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn)，可自动更新。

@@ -22,6 +22,22 @@ Telegram Web, including private channels and groups.
 - No extension account required — just sign in to Telegram Web as usual
 - 17 UI languages
 
+## Screenshots
+
+### One-click download
+
+A download button appears on every video and large photo. Click it to save
+the original file — no need to copy links.
+
+![One-click download on Telegram Web](screenshots/one-click-en.png)
+
+### Batch download
+
+Open TGDown from the toolbar to see everything detected on the page. Pick
+the files you want and download them all at once.
+
+![Batch download — select multiple files at once](screenshots/batch-en.png)
+
 ## Install
 
 Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/free-telegram-video-downl/pobheilhkabfglljggbjlcphpcmdmdbn) —
