@@ -2,7 +2,7 @@
 
 <img src="./public/icons/logo_128.png" width="120" height="120" alt="TGDown logo" />
 
-# TGDown — Telegram Web Media Downloader
+# TGDown — Telegram Web Video Downloader
 
 A Chrome extension (Manifest V3) that sniffs and downloads videos and photos on
 Telegram Web, including private channels and groups.
