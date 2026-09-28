@@ -12,8 +12,9 @@ Telegram Web, including private channels and groups.
 
 [简体中文](./README.zh-CN.md)
 
-<img width="556" height="701" alt="image" src="https://github.com/user-attachments/assets/16fc93c1-8707-4085-aa8d-1c81de5a2c5d" />
-
+<a href="https://chromewebstore.google.com/detail/tgdown-%E2%80%93-free-telegram-vi/pobheilhkabfglljggbjlcphpcmdmdbn">
+ <img width="556" height="701" alt="image" src="https://github.com/user-attachments/assets/16fc93c1-8707-4085-aa8d-1c81de5a2c5d" />
+</a>
 
 </div>
 
