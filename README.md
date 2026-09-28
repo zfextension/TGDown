@@ -14,7 +14,7 @@ Telegram Web, including private channels and groups.
 
 </div>
 
-<img width="1122" height="1402" alt="image" src="https://github.com/user-attachments/assets/16fc93c1-8707-4085-aa8d-1c81de5a2c5d" />
+<img width="656" height="701" alt="image" src="https://github.com/user-attachments/assets/16fc93c1-8707-4085-aa8d-1c81de5a2c5d" />
 
 ## Features
 
