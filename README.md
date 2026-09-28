@@ -14,6 +14,8 @@ Telegram Web, including private channels and groups.
 
 </div>
 
+<img width="1122" height="1402" alt="image" src="https://github.com/user-attachments/assets/16fc93c1-8707-4085-aa8d-1c81de5a2c5d" />
+
 ## Features
 
 - Auto-detects videos and large photos as you browse Telegram Web (`web.telegram.org/a/*` and `/k/*`)
